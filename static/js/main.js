@@ -544,7 +544,7 @@ class FarmaciaCatalogo {
      */
     contactarFarmacia(nombreMedicamento) {
         const mensaje = `Hola, me gustaría consultar sobre la disponibilidad de ${nombreMedicamento}`;
-        const numeroWhatsApp = '+5214421234567'; // Cambiar por el número real
+        const numeroWhatsApp = '+527731193124'; // Cambiar por el número real
         const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
         
         // Abrir WhatsApp o mostrar información de contacto
