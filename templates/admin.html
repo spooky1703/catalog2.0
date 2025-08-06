@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+  <h2>Panel de Administración</h2>
+  <a href="{{ url_for('create_med') }}" class="btn">+ Nuevo Medicamento</a>
+  <table>
+    <thead>
+      <tr><th>ID</th><th>Nombre</th><th>Precio</th><th>Stock</th><th>Acciones</th></tr>
+    </thead>
+    <tbody>
+      {% for med in meds %}
+      <tr>
+        <td>{{ med.id }}</td>
+        <td>{{ med.name }}</td>
+        <td>${{ med.price }}</td>
+        <td>{{ med.stock }}</td>
+        <td>
+          <a href="{{ url_for('edit_med', id=med.id) }}">Editar</a>
+          <form action="{{ url_for('delete_med', id=med.id) }}" method="post" class="inline">
+            <button type="submit">Eliminar</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

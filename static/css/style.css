@@ -1,0 +1,16 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; background: #f9f9f9; color: #333; }
+header, footer { background: #007BFF; color: #fff; padding: 1rem; text-align: center; }
+.container { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 1rem; }
+.card { background: #fff; padding: 1rem; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+.secret-btn { display: inline-block; margin-top: 1rem; padding: 0.5rem 1rem; background: #28A745; color: #fff; border-radius: 4px; text-decoration: none; }
+.auth-container, .form-container { background: #fff; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); max-width: 400px; margin: 2rem auto; }
+label { display: block; margin-top: 1rem; }
+input, textarea, button { width: 100%; padding: 0.5rem; margin-top: 0.5rem; border: 1px solid #ccc; border-radius: 4px; }
+button { background: #007BFF; color: #fff; border: none; cursor: pointer; margin-top: 1rem; }
+.btn { display: inline-block; margin-bottom: 1rem; background: #007BFF; color: #fff; padding: 0.5rem 1rem; border-radius: 4px; text-decoration: none; }
+table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+th, td { border: 1px solid #ddd; padding: 0.75rem; text-align: left; }
+.inline { display: inline; }
+.flash.danger { color: red; margin-top: 1rem; }
