@@ -5,116 +5,132 @@
 {% endblock %}
 
 {% block content %}
-<main class="admin-main">
-    <!-- Barra lateral -->
-    <aside class="admin-sidebar">
+<div class="admin-main">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar" id="adminSidebar">
         <div class="sidebar-header">
             <div class="logo">
                 <i class="fas fa-pills"></i>
                 <h1>Farmacia Digital</h1>
             </div>
+            <p>Panel de Administración</p>
         </div>
 
         <nav class="sidebar-nav">
             <ul>
                 <li>
-                    <a href="#" class="active" data-section="dashboard">
-                        <i class="fas fa-tachometer-alt"></i>
+                    <a href="#" class="nav-link active" data-section="dashboard">
+                        <i class="fas fa-chart-pie"></i>
                         <span>Dashboard</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" data-section="medicamentos">
+                    <a href="#" class="nav-link" data-section="medicamentos">
                         <i class="fas fa-pills"></i>
                         <span>Medicamentos</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" data-section="pedidos">
+                    <a href="#" class="nav-link" data-section="inventario">
+                        <i class="fas fa-boxes"></i>
+                        <span>Inventario</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link" data-section="pedidos">
                         <i class="fas fa-shopping-cart"></i>
                         <span>Pedidos</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" data-section="usuarios">
+                    <a href="#" class="nav-link" data-section="usuarios">
                         <i class="fas fa-users"></i>
                         <span>Usuarios</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" data-section="configuracion">
-                        <i class="fas fa-cog"></i>
-                        <span>Configuración</span>
+                    <a href="#" class="nav-link" data-section="reportes">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Reportes</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ url_for('logout') }}" id="logoutBtn">
-                        <i class="fas fa-sign-out-alt"></i>
-                        <span>Cerrar Sesión</span>
+                    <a href="#" class="nav-link" data-section="configuracion">
+                        <i class="fas fa-cog"></i>
+                        <span>Configuración</span>
                     </a>
                 </li>
             </ul>
         </nav>
 
         <div class="sidebar-footer">
-            <p>v1.0.0</p>
+            <a href="{{ url_for('logout') }}" class="nav-link" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Cerrar Sesión</span>
+            </a>
+            <p>v1.2.0</p>
         </div>
     </aside>
 
-    <!-- Contenido principal -->
-    <main class="admin-main">
-        <!-- Barra superior -->
+    <!-- Contenido Principal -->
+    <div class="admin-content-wrapper">
+        <!-- Header -->
         <header class="admin-header">
-            <div class="header-left">
-                <button id="sidebarToggle" class="menu-toggle">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <h2 id="pageTitle">Dashboard</h2>
-            </div>
-            <div class="header-right">
-                <div class="user-info">
-                    <span id="adminUsername">Administrador</span>
-                    <div class="user-avatar">
-                        <i class="fas fa-user-circle"></i>
+            <div class="header-content">
+                <div class="header-left">
+                    <button id="sidebarToggle" class="menu-toggle" aria-label="Toggle sidebar">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h2 id="pageTitle">Dashboard</h2>
+                </div>
+                <div class="header-right">
+                    <div class="user-info">
+                        <span id="adminUsername">Administrador</span>
+                        <div class="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
                     </div>
                 </div>
             </div>
         </header>
 
-        <!-- Secciones de contenido -->
-        <div class="admin-content">
-            <!-- Dashboard -->
+        <!-- Contenido -->
+        <main class="admin-content">
+            <!-- Dashboard Section -->
             <section id="dashboardSection" class="content-section active">
+                <div class="section-header">
+                    <h3>Resumen General</h3>
+                    <div class="header-actions">
+                        <button class="btn-primary">
+                            <i class="fas fa-sync-alt"></i>
+                            Actualizar
+                        </button>
+                    </div>
+                </div>
+
                 <div class="dashboard-grid">
                     <div class="dashboard-card">
                         <div class="card-icon bg-blue">
                             <i class="fas fa-pills"></i>
                         </div>
                         <div class="card-info">
-                            <h3>Medicamentos</h3>
+                            <h3>Total Medicamentos</h3>
                             <p id="totalMedicamentos">{{ total_medicamentos }}</p>
                         </div>
                     </div>
+
                     <div class="dashboard-card">
                         <div class="card-icon bg-green">
                             <i class="fas fa-shopping-cart"></i>
                         </div>
                         <div class="card-info">
-                            <h3>Pedidos Hoy</h3>
-                            <p id="totalPedidosHoy">0</p>
+                            <h3>Pedidos del Día</h3>
+                            <p id="totalPedidosHoy">12</p>
                         </div>
                     </div>
+
                     <div class="dashboard-card">
                         <div class="card-icon bg-orange">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <div class="card-info">
-                            <h3>Usuarios</h3>
-                            <p id="totalUsuarios">1</p>
-                        </div>
-                    </div>
-                    <div class="dashboard-card">
-                        <div class="card-icon bg-red">
                             <i class="fas fa-exclamation-triangle"></i>
                         </div>
                         <div class="card-info">
@@ -122,16 +138,109 @@
                             <p id="totalStockBajo">{{ total_stock_bajo }}</p>
                         </div>
                     </div>
+
+                    <div class="dashboard-card">
+                        <div class="card-icon bg-red">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3>Ventas del Mes</h3>
+                            <p id="ventasMes">$24,580</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gráficos y información adicional -->
+                <div class="dashboard-grid">
+                    <div class="content-section">
+                        <div class="section-header">
+                            <h3>Medicamentos Más Vendidos</h3>
+                        </div>
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Medicamento</th>
+                                        <th>Ventas</th>
+                                        <th>Stock</th>
+                                        <th>Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Paracetamol 500mg</td>
+                                        <td>145</td>
+                                        <td>23</td>
+                                        <td><span class="badge success">Disponible</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ibuprofeno 400mg</td>
+                                        <td>98</td>
+                                        <td>8</td>
+                                        <td><span class="badge warning">Stock Bajo</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Aspirina 100mg</td>
+                                        <td>76</td>
+                                        <td>0</td>
+                                        <td><span class="badge error">Agotado</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="content-section">
+                        <div class="section-header">
+                            <h3>Actividad Reciente</h3>
+                        </div>
+                        <div style="padding: var(--spacing-xl);">
+                            <div class="activity-item">
+                                <div class="activity-icon bg-green">
+                                    <i class="fas fa-plus"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <h4>Nuevo medicamento agregado</h4>
+                                    <p>Amoxicilina 500mg - Hace 2 horas</p>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon bg-orange">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <h4>Stock bajo detectado</h4>
+                                    <p>Ibuprofeno 400mg - Hace 4 horas</p>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon bg-blue">
+                                    <i class="fas fa-edit"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <h4>Precio actualizado</h4>
+                                    <p>Paracetamol 500mg - Hace 1 día</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
 
-            <!-- Medicamentos -->
+            <!-- Medicamentos Section -->
             <section id="medicamentosSection" class="content-section">
                 <div class="section-header">
                     <h3>Gestión de Medicamentos</h3>
-                    <a href="{{ url_for('create_med') }}" class="btn-primary" id="addMedicamentoBtn">
-                        <i class="fas fa-plus"></i> Nuevo Medicamento
-                    </a>
+                    <div class="header-actions">
+                        <div class="search-box-admin">
+                            <i class="fas fa-search"></i>
+                            <input type="text" placeholder="Buscar medicamento..." id="searchMedicamentos">
+                        </div>
+                        <a href="{{ url_for('create_med') }}" class="btn-primary" id="addMedicamentoBtn">
+                            <i class="fas fa-plus"></i>
+                            Nuevo Medicamento
+                        </a>
+                    </div>
                 </div>
 
                 <div class="table-container">
@@ -142,6 +251,7 @@
                                 <th>Nombre</th>
                                 <th>Precio</th>
                                 <th>Stock</th>
+                                <th>Estado</th>
                                 <th>Descripción</th>
                                 <th>Acciones</th>
                             </tr>
@@ -149,17 +259,36 @@
                         <tbody>
                             {% for med in meds %}
                             <tr>
-                                <td>{{ med.id }}</td>
-                                <td>{{ med.name }}</td>
-                                <td>${{ med.price }}</td>
-                                <td>{{ med.stock }}</td>
-                                <td>{{ med.description|truncate(30) }}</td>
+                                <td><span class="id-badge">#{{ med.id }}</span></td>
+                                <td>
+                                    <div class="med-info">
+                                        <strong>{{ med.name }}</strong>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="price-tag">${{ "%.2f"|format(med.price) }}</span>
+                                </td>
+                                <td>
+                                    <span class="stock-number">{{ med.stock }}</span>
+                                </td>
+                                <td>
+                                    {% if med.stock > 10 %}
+                                        <span class="badge success">Disponible</span>
+                                    {% elif med.stock > 0 %}
+                                        <span class="badge warning">Stock Bajo</span>
+                                    {% else %}
+                                        <span class="badge error">Agotado</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <span class="description-text">{{ med.description|truncate(40) }}</span>
+                                </td>
                                 <td class="actions">
-                                    <a href="{{ url_for('edit_med', id=med.id) }}" class="btn-edit">
+                                    <a href="{{ url_for('edit_med', id=med.id) }}" class="btn-edit" title="Editar">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <form action="{{ url_for('delete_med', id=med.id) }}" method="post" style="display:inline;">
-                                        <button type="submit" class="btn-delete">
+                                    <form action="{{ url_for('delete_med', id=med.id) }}" method="post" style="display:inline;" onsubmit="return confirm('¿Estás seguro de eliminar este medicamento?')">
+                                        <button type="submit" class="btn-delete" title="Eliminar">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </form>
@@ -171,24 +300,162 @@
                 </div>
             </section>
 
-            <!-- Otras secciones (pedidos, usuarios, configuración) -->
+            <!-- Inventario Section -->
+            <section id="inventarioSection" class="content-section">
+                <div class="section-header">
+                    <h3>Control de Inventario</h3>
+                    <div class="header-actions">
+                        <button class="btn-primary">
+                            <i class="fas fa-download"></i>
+                            Exportar
+                        </button>
+                    </div>
+                </div>
+                <div style="padding: var(--spacing-xl);">
+                    <div class="alert warning">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <div>
+                            <h4>Atención</h4>
+                            <p>Hay {{ total_stock_bajo }} medicamentos con stock bajo que requieren reabastecimiento.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="inventory-grid">
+                        {% for med in meds %}
+                            {% if med.stock <= 10 %}
+                            <div class="inventory-card {% if med.stock == 0 %}out-of-stock{% elif med.stock <= 5 %}critical{% else %}warning{% endif %}">
+                                <div class="inventory-header">
+                                    <h4>{{ med.name }}</h4>
+                                    <span class="stock-level">{{ med.stock }} unidades</span>
+                                </div>
+                                <div class="inventory-actions">
+                                    <button class="btn-restock">
+                                        <i class="fas fa-plus"></i>
+                                        Reabastecer
+                                    </button>
+                                </div>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pedidos Section -->
             <section id="pedidosSection" class="content-section">
-                <h3>Pedidos</h3>
-                <p>En construcción...</p>
+                <div class="section-header">
+                    <h3>Gestión de Pedidos</h3>
+                    <div class="header-actions">
+                        <select class="filter-select">
+                            <option value="todos">Todos los pedidos</option>
+                            <option value="pendientes">Pendientes</option>
+                            <option value="completados">Completados</option>
+                            <option value="cancelados">Cancelados</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="padding: var(--spacing-xl);">
+                    <div class="empty-state">
+                        <i class="fas fa-shopping-cart"></i>
+                        <h3>No hay pedidos registrados</h3>
+                        <p>Los pedidos aparecerán aquí cuando los clientes realicen compras.</p>
+                    </div>
+                </div>
             </section>
 
+            <!-- Usuarios Section -->
             <section id="usuariosSection" class="content-section">
-                <h3>Usuarios</h3>
-                <p>En construcción...</p>
+                <div class="section-header">
+                    <h3>Gestión de Usuarios</h3>
+                    <button class="btn-primary">
+                        <i class="fas fa-user-plus"></i>
+                        Nuevo Usuario
+                    </button>
+                </div>
+                <div style="padding: var(--spacing-xl);">
+                    <div class="empty-state">
+                        <i class="fas fa-users"></i>
+                        <h3>Gestión de usuarios</h3>
+                        <p>Funcionalidad en desarrollo para administrar usuarios del sistema.</p>
+                    </div>
+                </div>
             </section>
 
-            <section id="configuracionSection" class="content-section">
-                <h3>Configuración</h3>
-                <p>En construcción...</p>
+            <!-- Reportes Section -->
+            <section id="reportesSection" class="content-section">
+                <div class="section-header">
+                    <h3>Reportes y Analytics</h3>
+                    <div class="header-actions">
+                        <select class="filter-select">
+                            <option value="mensual">Este mes</option>
+                            <option value="trimestral">Trimestre</option>
+                            <option value="anual">Este año</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="padding: var(--spacing-xl);">
+                    <div class="reports-grid">
+                        <div class="report-card">
+                            <h4>Ventas por Categoría</h4>
+                            <div class="chart-placeholder">
+                                <i class="fas fa-chart-pie"></i>
+                                <p>Gráfico de ventas por categoría</p>
+                            </div>
+                        </div>
+                        <div class="report-card">
+                            <h4>Tendencia de Ventas</h4>
+                            <div class="chart-placeholder">
+                                <i class="fas fa-chart-line"></i>
+                                <p>Gráfico de tendencias mensual</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </section>
-        </div>
-    </main>
-</main>
+
+            <!-- Configuración Section -->
+            <section id="configuracionSection" class="content-section">
+                <div class="section-header">
+                    <h3>Configuración del Sistema</h3>
+                </div>
+                <div style="padding: var(--spacing-xl);">
+                    <div class="config-sections">
+                        <div class="config-card">
+                            <div class="config-icon">
+                                <i class="fas fa-store"></i>
+                            </div>
+                            <div class="config-content">
+                                <h4>Información de la Farmacia</h4>
+                                <p>Nombre, dirección, horarios de atención</p>
+                                <button class="btn-secondary">Configurar</button>
+                            </div>
+                        </div>
+                        <div class="config-card">
+                            <div class="config-icon">
+                                <i class="fas fa-bell"></i>
+                            </div>
+                            <div class="config-content">
+                                <h4>Notificaciones</h4>
+                                <p>Alertas de stock bajo, nuevos pedidos</p>
+                                <button class="btn-secondary">Configurar</button>
+                            </div>
+                        </div>
+                        <div class="config-card">
+                            <div class="config-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="config-content">
+                                <h4>Seguridad</h4>
+                                <p>Cambiar contraseña, sesiones activas</p>
+                                <button class="btn-secondary">Configurar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</div>
 {% endblock %}
 
 {% block extra_js %}
