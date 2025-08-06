@@ -1,27 +1,71 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-  <title>Farmacia Online</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Catálogo Farmacia | Encuentra tus Medicamentos{% endblock %}</title>
+    <meta name="description" content="Busca y encuentra medicamentos en nuestro catálogo online con precios actualizados">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    {% block extra_css %}{% endblock %}
 </head>
 <body>
-  <header>
-    <h1>Farmacia Salud</h1>
-    <nav>
-      {% if session.admin %}
-        <a href="{{ url_for('admin_panel') }}">Administrador</a> |
-        <a href="{{ url_for('logout') }}">Cerrar sesión</a>
-      {% endif %}
-    </nav>
-  </header>
-  <main>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-pills"></i>
+                    <h1>Farmacia Digital</h1>
+                </div>
+                <nav class="nav">
+                    <a href="{{ url_for('index') }}" class="nav-link">Inicio</a>
+                    <a href="{{ url_for('index') }}#catalogo" class="nav-link">Catálogo</a>
+                    {% if session.admin %}
+                        <a href="{{ url_for('admin_panel') }}" class="nav-link admin-link">
+                            <i class="fas fa-user-shield"></i> Admin
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="nav-link admin-link">
+                            <i class="fas fa-user-shield"></i> Admin
+                        </a>
+                    {% endif %}
+                </nav>
+            </div>
+        </div>
+    </header>
+
     {% block content %}{% endblock %}
-  </main>
-  <footer>
-    <p>&copy; {{ current_year }} Farmacia Salud</p>
-  </footer>
-  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Farmacia Digital</h4>
+                    <p>Tu catálogo confiable de medicamentos online</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Información</h4>
+                    <ul>
+                        <li><a href="{{ url_for('index') }}">Inicio</a></li>
+                        <li><a href="{{ url_for('index') }}#catalogo">Catálogo</a></li>
+                        <li><a href="#">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contacto</h4>
+                    <p><i class="fas fa-phone"></i> +52 442 123 4567</p>
+                    <p><i class="fas fa-envelope"></i> info@farmaciadigital.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Querétaro, México</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; {{ current_year }} Farmacia Digital. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
 </body>
 </html>

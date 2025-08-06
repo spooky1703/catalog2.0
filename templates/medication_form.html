@@ -1,17 +1,53 @@
 {% extends 'base.html' %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+{% endblock %}
+
 {% block content %}
-<div class="form-container">
-  <h2>{{ 'Editar' if action=='edit' else 'Crear' }} Medicamento</h2>
-  <form method="post">
-    <label for="name">Nombre:</label>
-    <input type="text" name="name" value="{{ med.name if med }}" required>
-    <label for="description">Descripción:</label>
-    <textarea name="description">{{ med.description if med }}</textarea>
-    <label for="price">Precio:</label>
-    <input type="number" name="price" step="0.01" value="{{ med.price if med }}" required>
-    <label for="stock">Stock:</label>
-    <input type="number" name="stock" value="{{ med.stock if med }}" required>
-    <button type="submit">Guardar</button>
-  </form>
-</div>
+<main class="admin-main">
+    <header class="admin-header">
+        <div class="header-left">
+            <button id="sidebarToggle" class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <h2 id="pageTitle">{{ 'Editar' if action=='edit' else 'Crear' }} Medicamento</h2>
+        </div>
+        <div class="header-right">
+            <div class="user-info">
+                <span id="adminUsername">Administrador</span>
+                <div class="user-avatar">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="admin-content">
+        <div class="form-container">
+            <form method="post">
+                <div class="form-group">
+                    <label for="name">Nombre *</label>
+                    <input type="text" id="name" name="name" value="{{ med.name if med else '' }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Descripción</label>
+                    <textarea id="description" name="description" rows="3">{{ med.description if med else '' }}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="price">Precio (MXN) *</label>
+                    <input type="number" id="price" name="price" step="0.01" min="0" value="{{ med.price if med else '' }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="stock">Stock *</label>
+                    <input type="number" id="stock" name="stock" min="0" value="{{ med.stock if med else '' }}" required>
+                </div>
+                <div class="form-actions">
+                    <a href="{{ url_for('admin_panel') }}" class="btn-cancel">Cancelar</a>
+                    <button type="submit" class="btn-save">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
 {% endblock %}

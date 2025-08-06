@@ -1,19 +1,102 @@
 {% extends 'base.html' %}
+
 {% block content %}
-<div class="container">
-  <h2>Catálogo de Medicamentos</h2>
-  <div class="grid">
-    {% for med in meds %}
-      <div class="card">
-        <h3>{{ med.name }}</h3>
-        <p>{{ med.description }}</p>
-        <p>Precio: ${{ med.price }}</p>
-        <p>Stock: {{ med.stock }}</p>
-      </div>
-    {% endfor %}
-  </div>
-  {% if show_secret %}
-    <a href="{{ url_for('login') }}" class="secret-btn">Administrador</a>
-  {% endif %}
-</div>
+    <!-- Hero Section -->
+    <section id="inicio" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h2>Encuentra tus Medicamentos</h2>
+                <p>Busca en nuestro catálogo completo de medicamentos con precios actualizados</p>
+                
+                <!-- Buscador Principal -->
+                <div class="search-container">
+                    <div class="search-box">
+                        <input 
+                            type="text" 
+                            id="searchInput" 
+                            placeholder="Buscar medicamento (ej: paracetamol, ibuprofeno...)"
+                            autocomplete="off"
+                        >
+                        <button id="searchBtn" class="search-btn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <div id="searchSuggestions" class="search-suggestions"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Resultados -->
+    <section id="catalogo" class="catalogo">
+        <div class="container">
+            <div class="catalogo-header">
+                <h3 id="resultadosTitle">Medicamentos Disponibles</h3>
+                <div class="filtros">
+                    <select id="sortSelect" class="sort-select">
+                        <option value="nombre">Ordenar por Nombre</option>
+                        <option value="precio_asc">Precio: Menor a Mayor</option>
+                        <option value="precio_desc">Precio: Mayor a Menor</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Loading Spinner -->
+            <div id="loadingSpinner" class="loading-spinner" style="display: none;">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Buscando medicamentos...</p>
+            </div>
+
+            <!-- Resultados Grid -->
+            <div id="resultadosGrid" class="resultados-grid">
+                {% for med in meds %}
+                <div class="medicamento-card" data-id="{{ med.id }}" data-name="{{ med.name|lower }}" data-price="{{ med.price }}" data-stock="{{ med.stock }}">
+                    <div class="medicamento-header">
+                        <h3 class="medicamento-nombre">{{ med.name }}</h3>
+                        <span class="medicamento-precio">${{ med.price }}</span>
+                    </div>
+                    <p class="medicamento-descripcion">{{ med.description }}</p>
+                    <div class="medicamento-footer">
+                        <span class="stock-badge {% if med.stock > 10 %}in{% elif med.stock > 0 %}low{% else %}out{% endif %}">
+                            {% if med.stock > 10 %}
+                                Disponible
+                            {% elif med.stock > 0 %}
+                                Poco Stock
+                            {% else %}
+                                Agotado
+                            {% endif %}
+                        </span>
+                        <button class="ver-detalles">Ver Detalles</button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Mensaje cuando no hay resultados -->
+            <div id="noResultados" class="no-resultados" style="display: none;">
+                <i class="fas fa-search"></i>
+                <h4>No se encontraron medicamentos</h4>
+                <p>Intenta con otro término de búsqueda</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal de Detalles -->
+    <div id="modalDetalles" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="modalTitle">Detalles del Medicamento</h4>
+                <span class="close" id="closeModal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="modalContent">
+                    <!-- Contenido del modal se carga dinámicamente -->
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 {% endblock %}

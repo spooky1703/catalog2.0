@@ -1,28 +1,197 @@
 {% extends 'base.html' %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+{% endblock %}
+
 {% block content %}
-<div class="container">
-  <h2>Panel de Administración</h2>
-  <a href="{{ url_for('create_med') }}" class="btn">+ Nuevo Medicamento</a>
-  <table>
-    <thead>
-      <tr><th>ID</th><th>Nombre</th><th>Precio</th><th>Stock</th><th>Acciones</th></tr>
-    </thead>
-    <tbody>
-      {% for med in meds %}
-      <tr>
-        <td>{{ med.id }}</td>
-        <td>{{ med.name }}</td>
-        <td>${{ med.price }}</td>
-        <td>{{ med.stock }}</td>
-        <td>
-          <a href="{{ url_for('edit_med', id=med.id) }}">Editar</a>
-          <form action="{{ url_for('delete_med', id=med.id) }}" method="post" class="inline">
-            <button type="submit">Eliminar</button>
-          </form>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
+<main class="admin-main">
+    <!-- Barra lateral -->
+    <aside class="admin-sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <i class="fas fa-pills"></i>
+                <h1>Farmacia Digital</h1>
+            </div>
+            <p>Panel de Administración</p>
+        </div>
+
+        <nav class="sidebar-nav">
+            <ul>
+                <li>
+                    <a href="#" class="active" data-section="dashboard">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-section="medicamentos">
+                        <i class="fas fa-pills"></i>
+                        <span>Medicamentos</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-section="pedidos">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>Pedidos</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-section="usuarios">
+                        <i class="fas fa-users"></i>
+                        <span>Usuarios</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-section="configuracion">
+                        <i class="fas fa-cog"></i>
+                        <span>Configuración</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('logout') }}" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Cerrar Sesión</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="sidebar-footer">
+            <p>v1.0.0</p>
+        </div>
+    </aside>
+
+    <!-- Contenido principal -->
+    <main class="admin-main">
+        <!-- Barra superior -->
+        <header class="admin-header">
+            <div class="header-left">
+                <button id="sidebarToggle" class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h2 id="pageTitle">Dashboard</h2>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                    <span id="adminUsername">Administrador</span>
+                    <div class="user-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Secciones de contenido -->
+        <div class="admin-content">
+            <!-- Dashboard -->
+            <section id="dashboardSection" class="content-section active">
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="card-icon bg-blue">
+                            <i class="fas fa-pills"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3>Medicamentos</h3>
+                            <p id="totalMedicamentos">{{ total_medicamentos }}</p>
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="card-icon bg-green">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3>Pedidos Hoy</h3>
+                            <p id="totalPedidosHoy">0</p>
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="card-icon bg-orange">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3>Usuarios</h3>
+                            <p id="totalUsuarios">1</p>
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="card-icon bg-red">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3>Stock Bajo</h3>
+                            <p id="totalStockBajo">{{ total_stock_bajo }}</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Medicamentos -->
+            <section id="medicamentosSection" class="content-section">
+                <div class="section-header">
+                    <h3>Gestión de Medicamentos</h3>
+                    <a href="{{ url_for('create_med') }}" class="btn-primary" id="addMedicamentoBtn">
+                        <i class="fas fa-plus"></i> Nuevo Medicamento
+                    </a>
+                </div>
+
+                <div class="table-container">
+                    <table id="medicamentosTable" class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Precio</th>
+                                <th>Stock</th>
+                                <th>Descripción</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for med in meds %}
+                            <tr>
+                                <td>{{ med.id }}</td>
+                                <td>{{ med.name }}</td>
+                                <td>${{ med.price }}</td>
+                                <td>{{ med.stock }}</td>
+                                <td>{{ med.description|truncate(30) }}</td>
+                                <td class="actions">
+                                    <a href="{{ url_for('edit_med', id=med.id) }}" class="btn-edit">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <form action="{{ url_for('delete_med', id=med.id) }}" method="post" style="display:inline;">
+                                        <button type="submit" class="btn-delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Otras secciones (pedidos, usuarios, configuración) -->
+            <section id="pedidosSection" class="content-section">
+                <h3>Pedidos</h3>
+                <p>En construcción...</p>
+            </section>
+
+            <section id="usuariosSection" class="content-section">
+                <h3>Usuarios</h3>
+                <p>En construcción...</p>
+            </section>
+
+            <section id="configuracionSection" class="content-section">
+                <h3>Configuración</h3>
+                <p>En construcción...</p>
+            </section>
+        </div>
+    </main>
+</main>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
 {% endblock %}
