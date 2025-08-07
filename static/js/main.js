@@ -1,6 +1,5 @@
 /**
- * JavaScript principal para el catálogo de farmacia
- * Maneja la búsqueda, visualización y interacciones del cliente
+ *  búsqueda, visualización y interacciones del cliente
  */
 
 class FarmaciaCatalogo {
@@ -15,10 +14,6 @@ class FarmaciaCatalogo {
         this.bindEvents();
         this.cargarMedicamentos();
     }
-
-    /**
-     * Inicializa los elementos del DOM
-     */
     initializeElements() {
         this.searchInput = document.getElementById('searchInput');
         this.searchBtn = document.getElementById('searchBtn');
@@ -34,9 +29,7 @@ class FarmaciaCatalogo {
         this.closeModal = document.getElementById('closeModal');
     }
 
-    /**
-     * Vincula eventos a los elementos
-     */
+
     bindEvents() {
         // Eventos de búsqueda
         this.searchInput.addEventListener('input', (e) => this.handleSearchInput(e));
@@ -89,7 +82,7 @@ class FarmaciaCatalogo {
     }
 
     /**
-     * Maneja la entrada de texto en el buscador
+     * entrada de texto en el buscador
      */
     handleSearchInput(e) {
         const valor = e.target.value.trim();
