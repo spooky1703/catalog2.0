@@ -242,13 +242,19 @@ print("Base de datos inicializada.")
 
 ## Flujo de Datos entre Componentes
 
-```sequence
-Usuario->Frontend: Acción (buscar, ver detalles, etc.)
-Frontend->app.py: Solicitud HTTP (GET/POST)
-app.py->DB: Consulta SQL
-DB-->>app.py: Resultados
-app.py-->>Frontend: Respuesta (HTML/JSON)
-Frontend-->>Usuario: Muestra resultados
+```
+sequenceDiagram
+    participant Usuario
+    participant Frontend
+    participant app.py
+    participant DB
+    
+    Usuario->>Frontend: Acción (buscar, ver detalles, etc.)
+    Frontend->>app.py: Solicitud HTTP (GET/POST)
+    app.py->>DB: Consulta SQL
+    DB-->>app.py: Resultados
+    app.py-->>Frontend: Respuesta (HTML/JSON)
+    Frontend-->>Usuario: Muestra resultados
 ```
 
 ## Estructura de la Base de Datos
